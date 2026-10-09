@@ -1,0 +1,443 @@
+
+.fw-section {
+  --bg-main: #f8fafc;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+
+  --accent-indigo: #4f46e5;
+  --accent-blue: #0ea5e9;
+  --accent-emerald: #10b981;
+
+  --folder-yellow: #fde047;
+  --folder-yellow-main: #facc15;
+  --folder-yellow-dark: #eab308;
+
+  --font-modern: Roboto;
+
+  /* Desktop Folder Dimensions & Elevations */
+  --fw-w: 440px;
+  --fw-h: 290px;
+  --fw-tilt: -45deg;
+  --fw-lift-1: -125px;
+  --fw-lift-2: -80px;
+  --fw-lift-3: -35px;
+  --fw-lift-4: 10px;
+
+  position: relative;
+  background-color: var(--bg-main);
+  font-family: var(--font-modern);
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 4rem 1.25rem;
+  box-sizing: border-box;
+}
+
+.fw-section *, .fw-section *::before, .fw-section *::after {
+  box-sizing: border-box;
+}
+
+.fw-container {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+/* Hardware-accelerated radial background glows */
+.fw-glow {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.22;
+  z-index: 1;
+  pointer-events: none;
+  transform: translateZ(0);
+}
+.fw-glow-indigo { 
+  width: 450px; 
+  height: 450px; 
+  background: radial-gradient(circle, var(--accent-indigo) 0%, transparent 70%); 
+  top: 8%; 
+  left: 12%; 
+}
+.fw-glow-blue { 
+  width: 480px; 
+  height: 480px; 
+  background: radial-gradient(circle, var(--accent-blue) 0%, transparent 70%); 
+  bottom: 6%; 
+  right: 12%; 
+}
+
+.fw-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  user-select: none;
+  max-width: 100%;
+}
+
+.fw-hint {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 2.25rem;
+  transition: color 0.3s ease, margin-bottom 0.4s ease;
+  text-align: center;
+  padding: 0 1rem;
+}
+
+.fw-scroll-hint {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-top: 2.25rem;
+  text-align: center;
+}
+.fw-scroll-hint strong { color: var(--text-main); }
+
+.fw-folder3d {
+  position: relative;
+  width: var(--fw-w);
+  height: var(--fw-h);
+  max-width: 90vw;
+  perspective: 1000px;
+}
+
+.fw-back {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(145deg, var(--folder-yellow-dark), var(--folder-yellow-main));
+  border-radius: 22px;
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+}
+
+.fw-stack {
+  position: absolute;
+  inset: 0;
+  padding: 0 12px;
+  z-index: 5;
+}
+
+/* --- Project Cards Base --- */
+.fw-card {
+  position: absolute;
+  top: 0;
+  left: 16px;
+  right: 16px;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 0.8rem 1.1rem;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  text-decoration: none;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.3s ease,
+              border-color 0.2s ease;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  min-height: 44px;
+  pointer-events: none; /* Disabled when folder is closed */
+  will-change: transform;
+}
+
+.fw-card:focus-visible {
+  outline: 2px solid var(--accent-indigo);
+  outline-offset: 2px;
+}
+
+.fw-card-content {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.fw-card-cat {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fw-card-title {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-top: 0.15rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fw-card-arrow {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-main);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.fw-card:hover .fw-card-arrow,
+.fw-card:focus-visible .fw-card-arrow {
+  background: var(--text-main);
+  color: #ffffff;
+}
+
+.fw-accent-indigo:hover  { border-color: var(--accent-indigo); }
+.fw-accent-blue:hover    { border-color: var(--accent-blue); }
+.fw-accent-emerald:hover { border-color: var(--accent-emerald); }
+
+/* Closed Folder Card Resting Positions */
+.fw-card-1 { transform: translate3d(0, -20px, 0) scale(1); z-index: 4; }
+.fw-card-2 { transform: translate3d(0, -14px, 0) scale(0.98); z-index: 3; }
+.fw-card-3 { transform: translate3d(0, -8px, 0) scale(0.96); z-index: 2; }
+.fw-card-4 { transform: translate3d(0, -2px, 0) scale(0.94); z-index: 1; }
+
+/* --- Folder Front Cover --- */
+.fw-front {
+  all: unset;
+  position: absolute;
+  inset: 0;
+  top: 34px;
+  display: block;
+  transform-origin: bottom center;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+  z-index: 10;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  will-change: transform;
+}
+
+.fw-front:focus-visible {
+  outline: 3px solid var(--accent-indigo);
+  outline-offset: 4px;
+  border-radius: 20px;
+}
+
+.fw-tab {
+  position: absolute;
+  top: -22px;
+  left: 0;
+  width: 40%;
+  min-width: 96px;
+  height: 24px;
+  background-color: var(--folder-yellow);
+  border-top-left-radius: 14px;
+  border-top-right-radius: 14px;
+  display: flex;
+  align-items: center;
+  padding-left: 0.9rem;
+}
+
+.fw-tab-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(15, 23, 42, 0.45);
+  border: 1px solid rgba(15, 23, 42, 0.15);
+  padding: 0.15rem 0.4rem;
+  border-radius: 5px;
+  white-space: nowrap;
+}
+
+.fw-body {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--folder-yellow) 0%, var(--folder-yellow-main) 100%);
+  border-bottom-left-radius: 22px;
+  border-bottom-right-radius: 22px;
+  border-top-right-radius: 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.03);
+  padding: 1rem;
+}
+
+.fw-brand {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.fw-brand-name, .fw-brand-surname {
+  font-size: clamp(1.4rem, 5vw, 2.15rem);
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.08);
+}
+
+.fw-action-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #facc15;
+  border: 2px solid rgba(255, 255, 255, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-main);
+  margin-top: 0.9rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  will-change: transform;
+}
+
+/* ==========================================================================
+   OPEN STATE (Works on click/tap for all devices)
+   ========================================================================== */
+
+/* Enable card pointer events and elevate stack z-index when open */
+.fw-wrapper.is-open .fw-stack {
+  z-index: 20;
+}
+.fw-wrapper.is-open .fw-card {
+  pointer-events: auto;
+}
+
+/* Front flap opens down and allows clicks through to cards */
+.fw-wrapper.is-open .fw-front {
+  transform: rotateX(var(--fw-tilt)) translate3d(0, 16px, 0);
+  box-shadow: 0 20px 28px -10px rgba(15, 23, 42, 0.18);
+  pointer-events: none;
+}
+
+/* Re-enable pointer events on front cover button if user wants to close folder */
+.fw-wrapper.is-open .fw-front .fw-action-btn {
+  pointer-events: auto;
+}
+
+.fw-wrapper.is-open .fw-action-btn {
+  transform: scale(1.08);
+  background-color: #ffffff;
+}
+
+/* Desktop Open Elevation */
+.fw-wrapper.is-open .fw-card-1 { transform: translate3d(0, var(--fw-lift-1), 0) scale(1.02); z-index: 8; }
+.fw-wrapper.is-open .fw-card-2 { transform: translate3d(0, var(--fw-lift-2), 0) scale(1);    z-index: 7; }
+.fw-wrapper.is-open .fw-card-3 { transform: translate3d(0, var(--fw-lift-3), 0) scale(0.98);  z-index: 6; }
+.fw-wrapper.is-open .fw-card-4 { transform: translate3d(0, var(--fw-lift-4), 0) scale(0.96);  z-index: 5; }
+.fw-wrapper.is-open .fw-hint { color: var(--accent-indigo); }
+
+/* ==========================================================================
+   HOVER STATE (Desktop fine pointer only)
+   ========================================================================== */
+@media (hover: hover) and (pointer: fine) {
+  .fw-wrapper:hover .fw-front {
+    transform: rotateX(var(--fw-tilt)) translate3d(0, 16px, 0);
+    box-shadow: 0 20px 28px -10px rgba(15, 23, 42, 0.18);
+  }
+  .fw-wrapper:hover .fw-action-btn {
+    transform: scale(1.08);
+    background-color: #ffffff;
+  }
+  .fw-wrapper:hover .fw-card-1 { transform: translate3d(0, var(--fw-lift-1), 0) scale(1.02); }
+  .fw-wrapper:hover .fw-card-2 { transform: translate3d(0, var(--fw-lift-2), 0) scale(1); }
+  .fw-wrapper:hover .fw-card-3 { transform: translate3d(0, var(--fw-lift-3), 0) scale(0.98); }
+  .fw-wrapper:hover .fw-card-4 { transform: translate3d(0, var(--fw-lift-4), 0) scale(0.96); }
+  .fw-wrapper:hover .fw-hint { color: var(--accent-indigo); }
+}
+
+/* ==========================================================================
+   RESPONSIVE BREAKPOINTS
+   ========================================================================== */
+
+/* ---------- TABLET ---------- */
+@media (max-width: 900px) {
+  .fw-section { padding: 3.5rem 1.25rem; }
+  .fw-folder3d {
+    --fw-w: 380px;
+    --fw-h: 260px;
+    --fw-tilt: -40deg;
+    --fw-lift-1: -105px;
+    --fw-lift-2: -65px;
+    --fw-lift-3: -25px;
+    --fw-lift-4: 15px;
+  }
+}
+
+/* ---------- MOBILE (Fixes small screen card visibility) ---------- */
+@media (max-width: 480px) {
+  .fw-section { 
+    padding: 3rem 1rem; 
+    min-height: 80vh; 
+  }
+
+  .fw-folder3d {
+    --fw-w: 320px;
+    --fw-h: 210px;
+    --fw-tilt: -25deg; /* Flatten angle slightly so bottom cards are readable */
+    perspective: 800px;
+  }
+
+  .fw-glow { opacity: 0.12; }
+
+  /* Increase hint bottom margin when open to avoid card 1 overlapping hint text */
+  .fw-hint { 
+    font-size: 0.85rem; 
+    margin-bottom: 2rem; 
+  }
+  .fw-wrapper.is-open .fw-hint {
+    margin-bottom: 7rem; 
+  }
+
+  .fw-scroll-hint { font-size: 0.82rem; margin-top: 1.75rem; }
+
+  /* Compact card styling for small screens */
+  .fw-card { 
+    padding: 0.55rem 0.75rem; 
+    min-height: 42px;
+    left: 8px;
+    right: 8px;
+  }
+  .fw-card-title { font-size: 0.82rem; }
+  .fw-card-cat { font-size: 0.58rem; }
+  .fw-card-arrow { width: 22px; height: 22px; }
+
+  .fw-tab { min-width: 84px; height: 20px; top: -18px; }
+  .fw-tab-label { font-size: 0.6rem; }
+  .fw-action-btn { width: 36px; height: 36px; }
+
+  /* STAGGERED SPREAD: Distribute all 4 cards far enough upward so every item is clear */
+  .fw-wrapper.is-open .fw-card-1 { transform: translate3d(0, -180px, 0) scale(1);    z-index: 10; }
+  .fw-wrapper.is-open .fw-card-2 { transform: translate3d(0, -125px, 0) scale(0.98); z-index: 9; }
+  .fw-wrapper.is-open .fw-card-3 { transform: translate3d(0, -70px, 0)  scale(0.96); z-index: 8; }
+  .fw-wrapper.is-open .fw-card-4 { transform: translate3d(0, -15px, 0)  scale(0.94); z-index: 7; }
+}
+
+/* ==========================================================================
+   ACCESSIBILITY: REDUCED MOTION
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .fw-front, .fw-card, .fw-action-btn, .fw-hint {
+    transition: opacity 0.2s ease !important;
+  }
+  .fw-wrapper.is-open .fw-front,
+  .fw-wrapper.is-open .fw-card-1,
+  .fw-wrapper.is-open .fw-card-2,
+  .fw-wrapper.is-open .fw-card-3,
+  .fw-wrapper.is-open .fw-card-4 {
+    transform: none !important;
+  }
+}
